@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             products.add(
                 Product(
             "Organic Apple",
-                "https://res.cloudinary.com/vajrohq/image/upload/v1538168291/vajro/jzehunaybpatwpwisf7k.jpg",
+                "https://via.placeholder.com/300.png/0+"+i+"f/fff",
                 1.99
             )
             )
