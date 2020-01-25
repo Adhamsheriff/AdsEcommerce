@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Ad\'s Ecommerce</string>
     <string name="action_settings">Settings</string>
+    <string name="product_details">Product Details</string>
+    <string name="check_availablity">Check Availablity</string>
 </resources>
