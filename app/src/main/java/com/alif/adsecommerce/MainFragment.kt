@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alif.adsecommerce.model.Product
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.progressBar
 import org.jetbrains.anko.uiThread
 import java.net.URL
 
@@ -36,11 +38,15 @@ class MainFragment : Fragment() {
                     root.progressBar.visibility = View.GONE
                 }
             }
-
-
         }
+
+        val categories = listOf("Shirts", "Jeans", "T-Shirts", "Pants", "Socks", "Categories1", "Categories2")
+
+        root.categoriesRecycleView.apply {
+        layoutManager = LinearLayoutManager(activity,RecyclerView.HORIZONTAL, false)
+        adapter = CategoriesAdapter(categories)
+        }
+
         return root
     }
-
-
 }
