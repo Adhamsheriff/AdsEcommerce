@@ -6,5 +6,41 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        android:icon="@drawable/ic_monetization_on_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings2"
+        android:orderInCategory="100"
+        android:title="Jeans"
+        android:icon="@drawable/ic_monetization_on_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_setting3s"
+        android:orderInCategory="100"
+        android:title="Shorts"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings4"
+        android:orderInCategory="100"
+        android:title="Socks"
+        android:icon="@drawable/ic_monetization_on_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings5"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_monetization_on_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings6"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_monetization_on_black_24dp"
         app:showAsAction="never" />
 </menu>
