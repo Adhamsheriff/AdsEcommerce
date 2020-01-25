@@ -14,6 +14,7 @@ class ProductAdapter(private val products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.photo)
+        val saleImageView: ImageView = itemView.findViewById(R.id.saleImageView)
         val title: TextView = itemView.findViewById(R.id.title)
         val price: TextView = itemView.findViewById(R.id.price)
     }
@@ -38,5 +39,14 @@ class ProductAdapter(private val products: List<Product>) :
         Picasso.get().load(product.photoUrl).into(holder.image)
         holder.title.text = product.title
         holder.price.text = product.price.toString()
+
+        if(product.isOnSale)
+        {
+            holder.saleImageView.visibility = View.VISIBLE
+        }
+        else
+        {
+            holder.saleImageView.visibility = View.GONE
+        }
     }
 }
