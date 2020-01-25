@@ -1,6 +1,7 @@
 package com.alif.adsecommerce
 
 import android.os.Bundle
+import android.util.Log.d
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -18,8 +19,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.actionHome -> d("Ads", "Home was Pressed!")
+                R.id.actionJeans -> d("Ads", "Jeans was Pressed!")
+                R.id.actionShorts -> d("Ads", "Shorts was Pressed!")
+            }
             it.isChecked = true
             drawerLayout.closeDrawers()
+
             true
         }
 
