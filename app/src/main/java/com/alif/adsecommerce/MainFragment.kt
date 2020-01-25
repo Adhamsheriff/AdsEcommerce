@@ -30,7 +30,6 @@ class MainFragment : Fragment() {
             val json = URL("https://finepointmobile.com/data/products.json").readText()
 
             uiThread {
-                d("Ads", "json :$json")
                 val products = Gson().fromJson(json, Array<Product>::class.java).toList()
                 root.recycler_view.apply {
                     layoutManager = GridLayoutManager(activity, 2)

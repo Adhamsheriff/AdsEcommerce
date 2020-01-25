@@ -5,11 +5,13 @@ import android.util.Log.d
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import com.alif.adsecommerce.model.Product
+import androidx.room.Room
+import com.alif.adsecommerce.database.AppDatabase
+import com.alif.adsecommerce.database.ProductFromDatabase
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +19,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        doAsync {
+            val db = Room.databaseBuilder(
+                applicationContext,
+                AppDatabase::class.java, "database-name"
+            ).build()
+
+            db.productDao().insertAll(ProductFromDatabase(null, "Socks Two Set", 1.00))
+            val products = db.productDao().getAll()
+
+            uiThread {
+
+                d("Ads", "Product Size? ${products.size}")
+            }
+        }
 
         supportFragmentManager
             .beginTransaction()
