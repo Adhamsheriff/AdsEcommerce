@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alif.adsecommerce.model.Product
 import com.squareup.picasso.Picasso
 
-class ProductAdapter(private val products: ArrayList<Product>) :
+class ProductAdapter(private val products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.photo)
