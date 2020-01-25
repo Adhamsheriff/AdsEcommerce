@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         for(i in 0..100){
             products.add(
                 Product(
-            "Organic Apple",
+            "Organic Apple #$i",
                 "https://via.placeholder.com/300.png/dddddd/000000",
                 1.99
             )
