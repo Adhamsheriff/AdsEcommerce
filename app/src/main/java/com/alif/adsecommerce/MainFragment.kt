@@ -11,6 +11,7 @@ import com.alif.adsecommerce.model.Product
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.progressBar
 import org.jetbrains.anko.uiThread
 import java.net.URL
 
@@ -32,6 +33,7 @@ class MainFragment : Fragment() {
                 root.recycler_view.apply {
                     layoutManager = GridLayoutManager(activity, 2)
                     adapter = ProductAdapter(products)
+                    root.progressBar.visibility = View.GONE
                 }
             }
 
