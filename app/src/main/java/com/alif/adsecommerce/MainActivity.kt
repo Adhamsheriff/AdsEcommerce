@@ -18,15 +18,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frameLayout, MainFragment())
+            .commit()
+
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.actionHome -> d("Ads", "Home was Pressed!")
+                R.id.actionHome -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, MainFragment())
+                        .commit()
+                }
                 R.id.actionJeans -> {
                     supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.frameLayout, JeansFragments())
                         .commit()
-                    d("Ads", "Jeans was Pressed!")
                 }
                 R.id.actionShorts -> d("Ads", "Shorts was Pressed!")
             }
@@ -41,22 +50,7 @@ class MainActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         }
 
-        val products = arrayListOf<Product>()
-        for (i in 0..100) {
-            products.add(
-                Product(
-                    "Shirt #$i",
-                    "https://via.placeholder.com/300.png/dddddd/000000",
-                    1.99
-                )
-            )
 
-        }
-
-        recycler_view.apply {
-            layoutManager = GridLayoutManager(this@MainActivity, 2)
-            adapter = ProductAdapter(products)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
