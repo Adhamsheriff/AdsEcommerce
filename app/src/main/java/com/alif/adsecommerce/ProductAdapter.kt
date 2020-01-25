@@ -14,6 +14,7 @@ class ProductAdapter(private val products: ArrayList<Product>) :
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.photo)
         val title: TextView = itemView.findViewById(R.id.title)
+        val price: TextView = itemView.findViewById(R.id.price)
     }
 
 
@@ -25,7 +26,9 @@ class ProductAdapter(private val products: ArrayList<Product>) :
     override fun getItemCount() = products.size
 
     override fun onBindViewHolder(holder: ProductAdapter.ViewHolder, position: Int) {
-        Picasso.get().load(products[position].photoUrl).into(holder.image)
-        holder.title.text = products[position].title
+        val product = products[position]
+        Picasso.get().load(product.photoUrl).into(holder.image)
+        holder.title.text = product.title
+        holder.price.text = product.price.toString()
     }
 }

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             products.add(
                 Product(
             "Organic Apple",
-                "https://via.placeholder.com/300.png/0+"+i+"f/fff",
+                "https://via.placeholder.com/300.png/dddddd/000000",
                 1.99
             )
             )
