@@ -1,10 +1,12 @@
 package com.alif.adsecommerce
 
-import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.alif.adsecommerce.repos.ProductsRepository
 import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_product_details.*
 
 class ProductDetails : AppCompatActivity() {
@@ -14,9 +16,20 @@ class ProductDetails : AppCompatActivity() {
         setContentView(R.layout.activity_product_details)
 
         val title = intent.getStringExtra("title")
-        val photo_url = intent.getStringExtra("photo_url")
-        product_name.text = title
-        Picasso.get().load(photo_url).into(details_photo)
+
+        val products = ProductsRepository().getProductByName(title)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                product_name.text = it.title
+                product_price.text = "$${it.price}"
+                Picasso.get().load(it.photoUrl).into(details_photo)
+            }, {
+
+            })
+
+
+
 
 
         details_availablity.setOnClickListener {

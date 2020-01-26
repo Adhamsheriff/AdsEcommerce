@@ -23,6 +23,16 @@ class ProductsRepository {
         }
     }
 
+    fun getProductByName(name: String): Single<Product> {
+        return Single.create<Product> {
+            val product = fetchProducts().first {
+                it.title == name
+            }
+            it.onSuccess(product)
+
+        }
+    }
+
     fun getProductsPhotos() {
 
     }

@@ -63,7 +63,6 @@ class MainFragment : Fragment() {
                     adapter = ProductAdapter(it) { extaTitle, extaPhotoUrl, photoView ->
                         val intent = Intent(activity, ProductDetails::class.java)
                         intent.putExtra("title", extaTitle)
-                        intent.putExtra("photo_url", extaPhotoUrl)
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as AppCompatActivity,photoView, "photoToAnimate")
                         startActivity(intent, options.toBundle())
                     }

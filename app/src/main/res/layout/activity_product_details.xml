@@ -26,9 +26,19 @@
         android:text="@string/product_details"
         android:textColor="#000000"
         android:textSize="24sp"
-
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_photo" />
+
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
     <Button
         android:id="@+id/details_availablity"
@@ -38,6 +48,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/check_availablity"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_name" />
+        app:layout_constraintTop_toBottomOf="@+id/product_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
