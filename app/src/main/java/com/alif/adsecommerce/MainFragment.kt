@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import com.alif.adsecommerce.database.AppDatabase
-import com.alif.adsecommerce.model.Product
+import com.alif.adsecommerce.repos.ProductsRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class MainFragment : Fragment() {
 
@@ -40,32 +38,45 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchButon.setOnClickListener {
-            doAsync {
-                val db = Room.databaseBuilder(
-                    activity!!.applicationContext,
-                    AppDatabase::class.java, "database-name"
-                ).build()
-
-                val productFromDatabase = db.productDao().searchFor("%${searchTerm.text}%")
-                val products = productFromDatabase.map {
-                    Product(
-                        it.title,
-                        "https://finepointmobile.com/data/jeans1.jpg",
-                        it.price,
-                        true
-                    )
+        val productsRepository = ProductsRepository().getAllProducts()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                recycler_view.apply {
+                    layoutManager = GridLayoutManager(activity, 2)
+                    adapter = ProductAdapter(it)
                 }
+                progressBar.visibility = View.GONE
+            }, {
 
-                uiThread {
-                    recycler_view.apply {
-                        layoutManager = GridLayoutManager(activity, 2)
-                        adapter = ProductAdapter(products)
-                    }
-                    progressBar.visibility = View.GONE
-                }
-            }
-        }
+            })
+
+//        searchButon.setOnClickListener {
+//            doAsync {
+//                val db = Room.databaseBuilder(
+//                    activity!!.applicationContext,
+//                    AppDatabase::class.java, "database-name"
+//                ).build()
+//
+//                val productFromDatabase = db.productDao().searchFor("%${searchTerm.text}%")
+//                val products = productFromDatabase.map {
+//                    Product(
+//                        it.title,
+//                        "https://finepointmobile.com/data/jeans1.jpg",
+//                        it.price,
+//                        true
+//                    )
+//                }
+//
+//                uiThread {
+//                    recycler_view.apply {
+//                        layoutManager = GridLayoutManager(activity, 2)
+//                        adapter = ProductAdapter(products)
+//                    }
+//                    progressBar.visibility = View.GONE
+//                }
+//            }
+//        }
 
 
     }
