@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alif.adsecommerce.model.Product
 import com.alif.adsecommerce.repos.ProductsRepository
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import kotlinx.android.synthetic.main.product_row.view.*
 
 class MainFragment : Fragment() {
 
@@ -43,7 +44,18 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val productsRepository = ProductsRepository().getAllProducts()
-            .subscribeOn(Schedulers.io())
+        loadRecyclerView(productsRepository)
+
+        searchButon.setOnClickListener {
+            loadRecyclerView(ProductsRepository().searchForProduct(searchTerm.text.toString()))
+
+        }
+
+    }
+
+    fun loadRecyclerView(productsRepository: Single<List<Product>>) {
+        val single = productsRepository
+        .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 recycler_view.apply {
@@ -60,34 +72,5 @@ class MainFragment : Fragment() {
             }, {
 
             })
-
-//        searchButon.setOnClickListener {
-//            doAsync {
-//                val db = Room.databaseBuilder(
-//                    activity!!.applicationContext,
-//                    AppDatabase::class.java, "database-name"
-//                ).build()
-//
-//                val productFromDatabase = db.productDao().searchFor("%${searchTerm.text}%")
-//                val products = productFromDatabase.map {
-//                    Product(
-//                        it.title,
-//                        "https://finepointmobile.com/data/jeans1.jpg",
-//                        it.price,
-//                        true
-//                    )
-//                }
-//
-//                uiThread {
-//                    recycler_view.apply {
-//                        layoutManager = GridLayoutManager(activity, 2)
-//                        adapter = ProductAdapter(products)
-//                    }
-//                    progressBar.visibility = View.GONE
-//                }
-//            }
-//        }
-
-
     }
 }
