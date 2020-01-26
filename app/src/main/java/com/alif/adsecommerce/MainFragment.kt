@@ -1,9 +1,12 @@
 package com.alif.adsecommerce
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import kotlinx.android.synthetic.main.product_row.view.*
 
 class MainFragment : Fragment() {
 
@@ -44,7 +48,13 @@ class MainFragment : Fragment() {
             .subscribe({
                 recycler_view.apply {
                     layoutManager = GridLayoutManager(activity, 2)
-                    adapter = ProductAdapter(it)
+                    adapter = ProductAdapter(it) { extaTitle, extaPhotoUrl, photoView ->
+                        val intent = Intent(activity, ProductDetails::class.java)
+                        intent.putExtra("title", extaTitle)
+                        intent.putExtra("photo_url", extaPhotoUrl)
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as AppCompatActivity,photoView, "photoToAnimate")
+                        startActivity(intent, options.toBundle())
+                    }
                 }
                 progressBar.visibility = View.GONE
             }, {
