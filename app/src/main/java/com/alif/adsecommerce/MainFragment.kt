@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alif.adsecommerce.model.Product
-import com.alif.adsecommerce.repos.ProductsRepository
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
 class MainFragment : Fragment() {
+
+    lateinit var mainFragmentViewModel: MainFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,33 +43,39 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val productsRepository = ProductsRepository().getAllProducts()
-        loadRecyclerView(productsRepository)
+        mainFragmentViewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
 
-        searchButon.setOnClickListener {
-            loadRecyclerView(ProductsRepository().searchForProduct(searchTerm.text.toString()))
+        mainFragmentViewModel.products.observe(requireActivity(), Observer {
+            loadRecyclerView(it)
+        })
 
-        }
+        mainFragmentViewModel.setup()
+
+//        val productsRepository = ProductsRepository().getAllProducts()
+//        loadRecyclerView(productsRepository)
+//
+//        searchButon.setOnClickListener {
+//            loadRecyclerView(ProductsRepository().searchForProduct(searchTerm.text.toString()))
+//
+//        }
 
     }
 
-    fun loadRecyclerView(productsRepository: Single<List<Product>>) {
-        val single = productsRepository
-        .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                recycler_view.apply {
-                    layoutManager = GridLayoutManager(activity, 2)
-                    adapter = ProductAdapter(it) { extaTitle, extaPhotoUrl, photoView ->
-                        val intent = Intent(activity, ProductDetails::class.java)
-                        intent.putExtra("title", extaTitle)
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity as AppCompatActivity,photoView, "photoToAnimate")
-                        startActivity(intent, options.toBundle())
-                    }
-                }
-                progressBar.visibility = View.GONE
-            }, {
+    private fun loadRecyclerView(products: List<Product>) {
+        recycler_view.apply {
+            layoutManager = GridLayoutManager(activity, 2)
+            adapter = ProductAdapter(products) { extaTitle, extaPhotoUrl, photoView ->
+                val intent = Intent(activity, ProductDetails::class.java)
+                intent.putExtra("title", extaTitle)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity as AppCompatActivity,
+                    photoView,
+                    "photoToAnimate"
+                )
+                startActivity(intent, options.toBundle())
+            }
+        }
+        progressBar.visibility = View.GONE
 
-            })
     }
 }

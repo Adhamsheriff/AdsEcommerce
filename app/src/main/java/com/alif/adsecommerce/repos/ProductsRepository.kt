@@ -2,10 +2,25 @@ package com.alif.adsecommerce.repos
 
 import com.alif.adsecommerce.model.Product
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import io.reactivex.Single
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.net.URL
 
 class ProductsRepository {
+
+    private fun retrofit() : ECommerceApi {
+        return Retrofit.Builder()
+            .baseUrl("https://finepointmobile.com/")
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .build()
+            .create(ECommerceApi::class.java)
+    }
+
+    suspend fun fetchAllProductRetrofit() : List<Product>{
+        return retrofit().fetchAllProduct()
+    }
 
     fun getAllProducts(): Single<List<Product>> {
         return Single.create<List<Product>> {
