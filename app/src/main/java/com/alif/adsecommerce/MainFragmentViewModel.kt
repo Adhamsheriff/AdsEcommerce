@@ -8,14 +8,19 @@ import com.alif.adsecommerce.repos.ProductsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainFragmentViewModel:ViewModel() {
+class MainFragmentViewModel : ViewModel() {
 
     val products = MutableLiveData<List<Product>>()
 
-    fun setup(){
-        viewModelScope.launch(Dispatchers.Default){
+    fun setup() {
+        viewModelScope.launch(Dispatchers.Default) {
             products.postValue(ProductsRepository().fetchAllProductRetrofit())
         }
     }
 
+    fun search(term: String) {
+        viewModelScope.launch(Dispatchers.Default) {
+            products.postValue(ProductsRepository().searchForProduct(term))
+        }
+    }
 }
