@@ -17,20 +17,21 @@ class ProductDetails : AppCompatActivity() {
 
         val title = intent.getStringExtra("title")
 
+        product_addtocart.setOnClickListener {
+
+        }
+
+
         val products = ProductsRepository().getProductByName(title)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 product_name.text = it.title
                 product_price.text = "$${it.price}"
+                product_description.text = it.description
                 Picasso.get().load(it.photoUrl).into(details_photo)
             }, {
-
             })
-
-
-
-
 
         details_availablity.setOnClickListener {
             AlertDialog.Builder(this)

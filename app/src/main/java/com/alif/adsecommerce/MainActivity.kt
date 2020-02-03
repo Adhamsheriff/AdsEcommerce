@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.room.Room
 import com.alif.adsecommerce.cart.CartActivity
 import com.alif.adsecommerce.database.AppDatabase
+import com.alif.adsecommerce.database.CartModel
 import com.alif.adsecommerce.database.ProductFromDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main.*
@@ -32,9 +33,17 @@ class MainActivity : AppCompatActivity() {
             db.productDao().insertAll(ProductFromDatabase(null, "Socks Two Set", 1.00))
             val products = db.productDao().getAll()
 
+            val cart = db.cartDao()
+            cart.insertAll(CartModel(null, "Socks Two Set", 1.00,4))
+            val allCartItem = cart.getAll()
+
             uiThread {
 
                 d("Ads", "Product Size? ${products.size}")
+
+                allCartItem.forEach{
+                    d("Ads", "Item of cart? ${it.title} ${it.price} ${it.quantity}")
+                }
             }
         }
 

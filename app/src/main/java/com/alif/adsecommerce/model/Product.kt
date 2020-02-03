@@ -8,6 +8,8 @@ class Product(
     @SerializedName("photo_url")
     val photoUrl: String,
 
+    val description: String,
+
     val price: Double,
 
     val isOnSale: Boolean
